@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mesa Studio diseña sitios web y menús digitales para restaurantes.">
+<meta name="theme-color" content="#f3efe4">
+<style>:root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Mesa Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&family=Hanken+Grotesk:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&family=Jost:wght@300;400;500&family=Archivo+Black&display=swap">
+<style>
+/* Layout: editorial grid with asymmetric splits. Ivory ground, forest panels for Menús and Contacto,
+   terracotta only on the primary action, small marks and the key word of the headline. */
+:root{
+  --paper:#f3efe4;
+  --paper-2:#e9e3d2;
+  --ink:#16241e;
+  --muted:#52625a;
+  --forest:#16352a;
+  --on-forest:#efe9d9;
+  --on-forest-muted:#b5c1b6;
+  --terra:#a8492a;
+  --terra-hover:#8f3b20;
+  --on-terra:#f8f3e6;
+  --terra-ink:#8f3d1f;
+  --terra-soft:#e3957250;
+  --terra-on-forest:#e59a78;
+  --line:#cfc7b0;
+  --line-forest:#35544a;
+  --focus:#a8492a;
+  --serif:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --g:clamp(20px,5vw,64px);
+  --sec:clamp(4.5rem,10vw,9rem);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#101a15;--paper-2:#16221c;--ink:#ece6d4;--muted:#a7b4aa;
+    --forest:#1c3a2e;--terra:#d9805a;--terra-hover:#e69470;--on-terra:#1d100a;
+    --terra-ink:#e59a78;--line:#2c3b33;--line-forest:#3b5c50;--focus:#e59a78;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101a15;--paper-2:#16221c;--ink:#ece6d4;--muted:#a7b4aa;
+  --forest:#1c3a2e;--terra:#d9805a;--terra-hover:#e69470;--on-terra:#1d100a;
+  --terra-ink:#e59a78;--line:#2c3b33;--line-forest:#3b5c50;--focus:#e59a78;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font:400 1rem/1.6 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:2px}
+.on-forest :focus-visible{outline-color:var(--terra-on-forest)}
+.skip{position:absolute;left:16px;top:-80px;background:var(--ink);color:var(--paper);padding:.75rem 1rem;z-index:100;text-decoration:none}
+.skip:focus{top:max(12px,env(safe-area-inset-top,0px))}
+
+.wrap{width:100%;max-width:1320px;margin-inline:auto;padding-left:max(var(--g),env(safe-area-inset-left,0px));padding-right:max(var(--g),env(safe-area-inset-right,0px))}
+section[id],article[id]{scroll-margin-top:72px}
+
+/* Type */
+.eyebrow{display:flex;align-items:center;gap:.8rem;font:500 .75rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--terra-ink)}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor;flex:none}
+.on-forest .eyebrow{color:var(--terra-on-forest)}
+h1,h2,h3{font-family:var(--serif);font-weight:340;letter-spacing:-.018em;text-wrap:balance}
+h1{font-size:clamp(2.6rem,9.6vw,6.4rem);line-height:.98}
+h1 em,h2 em{font-style:italic;color:var(--terra-ink);font-weight:320}
+h2{font-size:clamp(2rem,6vw,3.7rem);line-height:1.05}
+h3{font-size:clamp(1.55rem,3.6vw,2.3rem);line-height:1.12}
+.lede{font-size:clamp(1.05rem,2.4vw,1.2rem);line-height:1.6;color:var(--muted);max-width:34rem}
+.body{color:var(--muted);max-width:32rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.7rem;min-height:52px;padding:0 1.6rem;border:1px solid transparent;border-radius:2px;font:500 .9rem/1 var(--sans);letter-spacing:.04em;text-decoration:none;cursor:pointer;transition:background-color .25s,color .25s,border-color .25s,transform .15s;-webkit-tap-highlight-color:transparent}
+.btn svg{width:16px;height:16px;flex:none;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn:active{transform:translateY(1px)}
+.btn--primary{background:var(--terra);color:var(--on-terra)}
+.btn--primary:hover{background:var(--terra-hover)}
+.btn--ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn--ghost:hover{background:var(--ink);color:var(--paper)}
+.btn--light{border-color:var(--on-forest);color:var(--on-forest);background:transparent}
+.btn--light:hover{background:var(--on-forest);color:var(--forest)}
+.btn--sm{min-height:44px;padding:0 1.2rem;font-size:.82rem}
+
+/* Navigation */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav__in{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:68px}
+.logo{display:inline-flex;align-items:center;gap:.9rem;text-decoration:none;color:var(--ink)}
+.logo b{font:500 1.2rem/1 var(--serif);letter-spacing:.2em}
+.logo i{width:1px;height:16px;background:var(--terra);display:block}
+.logo span{font:500 .66rem/1 var(--sans);letter-spacing:.34em;text-transform:uppercase}
+.nav__links{display:none}
+.nav__cta{display:none}
+.nav__links a{position:relative;text-decoration:none;font-size:.92rem;padding:.5rem 0}
+.nav__links a::after{content:"";position:absolute;left:0;right:0;bottom:.2rem;height:1px;background:var(--terra);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav__links a:hover::after,.nav__links a:focus-visible::after{transform:scaleX(1)}
+.burger{width:48px;height:48px;margin-right:-10px;border:0;background:none;color:var(--ink);cursor:pointer;display:grid;place-content:center;gap:7px;-webkit-tap-highlight-color:transparent}
+.burger span{display:block;width:24px;height:1.5px;background:currentColor;transition:transform .3s}
+.burger[aria-expanded="true"] span:first-child{transform:translateY(4.25px) rotate(45deg)}
+.burger[aria-expanded="true"] span:last-child{transform:translateY(-4.25px) rotate(-45deg)}
+.menu{border-top:1px solid var(--line);background:var(--paper);padding:1rem max(var(--g),env(safe-area-inset-left,0px)) 1.6rem;animation:drop .3s ease both}
+.menu a:not(.btn){display:flex;align-items:center;min-height:56px;font:340 1.7rem/1 var(--serif);text-decoration:none;border-bottom:1px solid var(--line)}
+.menu .btn{width:100%;margin-top:1.4rem}
+@keyframes drop{from{transform:translateY(-8px)}}
+@media(min-width:900px){
+  .nav__links{display:flex;gap:2.4rem;margin-left:auto;margin-right:2.2rem}
+  .nav__cta{display:inline-flex}
+  .burger,.menu{display:none!important}
+}
+
+/* Hero */
+.hero{padding-block:clamp(2rem,6vw,4.5rem) clamp(.5rem,2vw,1.5rem)}
+.hero__grid{display:grid;gap:2.5rem;align-items:end}
+.hero__copy{display:grid;gap:1.6rem;justify-items:start}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem;width:100%}
+.hero__fig{position:relative;aspect-ratio:4/5;background:#1f4435;overflow:hidden}
+.hero__rise>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero__rise>*:nth-child(2){animation-delay:.08s}.hero__rise>*:nth-child(3){animation-delay:.16s}.hero__rise>*:nth-child(4){animation-delay:.24s}
+@keyframes rise{from{transform:translateY(16px)}}
+@media(max-width:559px){.actions .btn{flex:1 1 100%}}
+@media(min-width:900px){
+  .hero__grid{grid-template-columns:1.12fr .88fr;gap:clamp(2rem,6vw,6rem)}
+  .hero__fig{aspect-ratio:auto;height:min(78vh,760px);min-height:560px;margin-top:2rem}
+}
+
+.art{display:block;width:100%;height:100%}
+[data-photo] img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Section heads */
+.sec{padding-block:var(--sec)}
+.sec-head{display:grid;gap:1.4rem;margin-bottom:clamp(2.5rem,6vw,5rem)}
+.sec-head .eyebrow{margin-bottom:.2rem}
+@media(min-width:900px){.sec-head--split{grid-template-columns:1fr 1fr;align-items:end;gap:clamp(2rem,6vw,6rem)}}
+
+/* Servicios: carta index */
+.carta{display:grid}
+.carta a{display:flex;align-items:baseline;gap:.7rem;padding:.95rem 0;border-top:1px solid var(--line);text-decoration:none;transition:color .2s}
+.carta li:last-child a{border-bottom:1px solid var(--line)}
+.carta span{font:340 1.2rem/1.25 var(--serif);min-width:0}
+.carta i{flex:1;min-width:1rem;border-bottom:1px dotted var(--muted);opacity:.6;transform:translateY(-.3em)}
+.carta em{font-style:normal;font-size:.85rem;color:var(--muted);text-align:right}
+.carta a:hover span{color:var(--terra-ink)}
+
+.svc{display:grid;gap:2rem;align-items:center}
+.svc__k{font:500 .72rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--terra-ink);margin-bottom:1rem}
+.svc h3{margin-bottom:1.1rem}
+.plain{display:grid;gap:.55rem;margin-top:1.6rem}
+.plain li{display:flex;gap:.8rem;align-items:baseline;font-size:.95rem}
+.plain li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--terra);flex:none;transform:translateY(-.1em)}
+
+.svc--web .svc__art{background:#e2d9c2;aspect-ratio:900/640}
+.svc--web{padding-bottom:var(--sec)}
+@media(min-width:900px){
+  .svc--web{grid-template-columns:7fr 5fr;gap:clamp(2rem,6vw,6rem)}
+  .svc--web .svc__txt{padding-bottom:1rem}
+}
+
+.band-forest{background:var(--forest);color:var(--on-forest)}
+.band-forest .svc__k{color:var(--terra-on-forest)}
+.band-forest .body{color:var(--on-forest-muted)}
+.band-forest .plain li::before{background:var(--terra-on-forest)}
+.svc--menu{padding-block:var(--sec);overflow:hidden}
+.phone{width:min(280px,72vw);justify-self:center;aspect-ratio:320/640}
+@media(min-width:900px){
+  .svc--menu{grid-template-columns:5fr 4fr;gap:clamp(2rem,8vw,8rem)}
+  .svc--menu .phone{justify-self:start;width:min(300px,100%);margin-block:-1rem}
+}
+
+.svc--reach{background:var(--paper-2)}
+.reach{display:grid;gap:clamp(2.5rem,6vw,5rem);padding-block:var(--sec)}
+.reach__list{display:grid;gap:0;align-content:start}
+.reach__list li{display:grid;grid-template-columns:auto 1fr;gap:.4rem 1.1rem;padding:1.3rem 0;border-top:1px solid var(--line)}
+.reach__list li:last-child{border-bottom:1px solid var(--line)}
+.reach__list svg{width:26px;height:26px;stroke:var(--terra-ink);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;grid-row:span 2;margin-top:.15rem}
+.reach__list h4{margin:0;font:340 1.35rem/1.2 var(--serif)}
+.reach__list p{font-size:.93rem;color:var(--muted)}
+@media(min-width:900px){.reach{grid-template-columns:5fr 6fr;gap:clamp(2rem,8vw,8rem);align-items:start}.reach__list{padding-top:.4rem}}
+
+/* Proyectos */
+.tag{display:inline-flex;align-items:center;gap:.55rem;font:500 .68rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--terra-ink);border:1px solid currentColor;padding:.5rem .7rem;border-radius:2px;width:fit-content}
+.proj{display:grid;gap:1.4rem;align-content:start}
+.proj__info{display:grid;gap:.7rem;justify-items:start}
+.proj__type{font:500 .74rem/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.proj .body{max-width:30rem}
+.proj-pair{display:grid;gap:clamp(3rem,6vw,4rem);margin-top:clamp(3rem,7vw,6rem)}
+@media(min-width:900px){
+  .proj--wide{grid-template-columns:2.2fr 1fr;align-items:end;gap:clamp(2rem,5vw,4.5rem)}
+  .proj-pair{grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+  .proj-pair .proj:nth-child(2){margin-top:clamp(3rem,8vw,7rem)}
+}
+
+.mock{container-type:inline-size;position:relative;overflow:hidden;display:flex;flex-direction:column;background:var(--m-bg);color:var(--m-fg);border:1px solid var(--line);aspect-ratio:4/5}
+.proj--wide .mock{aspect-ratio:4/5}
+@media(min-width:900px){.proj--wide .mock{aspect-ratio:16/10}}
+.mock__bar{display:flex;align-items:center;justify-content:space-between;padding:4cqw 5cqw;font-size:max(11px,2.1cqw);flex:none}
+.mock__links{display:flex;gap:2.4cqw;opacity:.75}
+.mock__body{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto}
+.mock__art{min-height:0;overflow:hidden}
+.mock__txt{padding:4cqw 5cqw 5.5cqw;display:grid;gap:2.4cqw;justify-items:start}
+.mock__btn{display:inline-flex;align-items:center;min-height:max(32px,6cqw);padding:0 3.2cqw;font-size:max(11px,2cqw);letter-spacing:.06em}
+@container (min-width:640px){
+  .mock--wide .mock__body{grid-template-rows:1fr;grid-template-columns:1fr 1fr}
+  .mock--wide .mock__txt{align-content:center;padding:0 5cqw 5cqw}
+  .mock--wide .mock__art{order:2}
+}
+
+.mock--umbral{--m-bg:#0e0e0d;--m-fg:#e8e0cf;border-color:#2a2927}
+.mock--umbral .mock__bar{font-family:"Jost",var(--sans);font-weight:300;letter-spacing:.12em;text-transform:uppercase}
+.mock--umbral .brand{font:italic 400 max(18px,3.4cqw)/1 "Cormorant Garamond",var(--serif);letter-spacing:.02em;text-transform:none}
+.mock--umbral .k{font:300 max(10px,1.7cqw)/1 "Jost",var(--sans);letter-spacing:.3em;text-transform:uppercase;color:#a89868}
+.mock--umbral .t{font:italic 400 clamp(26px,6.4cqw,70px)/1 "Cormorant Garamond",var(--serif);text-wrap:balance}
+.mock--umbral .mock__btn{border:1px solid #a89868;color:#e8e0cf;font-family:"Jost",var(--sans);font-weight:300;letter-spacing:.2em;text-transform:uppercase}
+
+.mock--grano{--m-bg:#f8f2e6;--m-fg:#3a281d;border-color:#e4d9c3}
+.mock--grano .mock__bar{font-family:"Jost",var(--sans);font-weight:400}
+.mock--grano .brand{font:500 max(14px,2.8cqw)/1 "Jost",var(--sans);letter-spacing:.24em;text-transform:uppercase}
+.mock--grano .k{font:400 max(10px,1.9cqw)/1 "Jost",var(--sans);letter-spacing:.22em;text-transform:uppercase;color:#a8693a}
+.mock--grano .t{font:300 clamp(24px,7.4cqw,44px)/1.08 "Jost",var(--sans);letter-spacing:-.01em;text-wrap:balance}
+.mock--grano .mock__btn{background:#3a281d;color:#f8f2e6;font-family:"Jost",var(--sans);font-weight:400;border-radius:999px}
+.mock--grano .mock__art{padding:0 5cqw}
+.mock--grano .mock__art>div{height:100%;border-radius:50% 50% 0 0/38% 38% 0 0;overflow:hidden}
+
+.mock--brasa{--m-bg:#e9b02f;--m-fg:#161412;border-color:#161412}
+.mock--brasa .mock__bar{font-family:"Archivo Black",var(--sans);text-transform:uppercase;letter-spacing:.04em}
+.mock--brasa .brand{font:400 max(16px,3.2cqw)/1 "Archivo Black",var(--sans)}
+.mock--brasa .brand sup{font-size:.55em;color:#b8321a}
+.mock--brasa .k{font:400 max(10px,1.9cqw)/1 "Archivo Black",var(--sans);letter-spacing:.08em;text-transform:uppercase;background:#161412;color:#e9b02f;padding:1.1cqw 2cqw}
+.mock--brasa .t{font:400 clamp(26px,9cqw,52px)/.94 "Archivo Black",var(--sans);text-transform:uppercase;letter-spacing:-.01em}
+.mock--brasa .mock__btn{background:#b8321a;color:#fff6e4;font-family:"Archivo Black",var(--sans);text-transform:uppercase;letter-spacing:.04em}
+
+/* Proceso */
+.process{background:var(--paper-2);padding-block:var(--sec)}
+.steps{display:grid;gap:0;counter-reset:none}
+.steps li{position:relative;padding:0 0 2.6rem 2.2rem;border-left:1px solid var(--line)}
+.steps li:last-child{padding-bottom:0}
+.steps li::before{content:"";position:absolute;left:-5px;top:.55rem;width:9px;height:9px;border-radius:50%;background:var(--terra)}
+.steps .n{display:block;font:italic 300 2.6rem/1 var(--serif);color:var(--terra-ink);margin-bottom:.7rem}
+.steps h3{font-size:1.7rem;margin-bottom:.7rem}
+.steps p{font-size:.95rem;color:var(--muted);max-width:26rem}
+.steps .res{display:block;margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--line);font-size:.86rem;color:var(--ink);max-width:26rem}
+.steps .res b{display:block;font:500 .66rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--terra-ink);margin-bottom:.45rem}
+@media(min-width:900px){
+  .steps{grid-template-columns:repeat(4,1fr);gap:clamp(1.5rem,3vw,3rem)}
+  .steps li{padding:2.4rem 0 0;border-left:0;border-top:1px solid var(--line)}
+  .steps li::before{left:0;top:-5px}
+  .steps li:nth-child(2){margin-top:2.2rem}
+  .steps li:nth-child(3){margin-top:4.4rem}
+  .steps li:nth-child(4){margin-top:6.6rem}
+}
+
+/* Contacto */
+.contact{background:var(--forest);color:var(--on-forest);padding-block:var(--sec)}
+.contact__grid{display:grid;gap:clamp(2.5rem,6vw,5rem)}
+.contact__intro{display:grid;gap:1.4rem;align-content:start}
+.contact__intro .body{color:var(--on-forest-muted)}
+.wa-note{font-size:.85rem;color:var(--on-forest-muted);min-height:1.3em;max-width:28rem}
+.form{display:grid;gap:1.6rem}
+.field{display:grid;gap:.4rem}
+.field label{font:500 .7rem/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--on-forest-muted)}
+.field input,.field select,.field textarea{width:100%;font:400 1rem/1.4 var(--sans);color:var(--on-forest);background:transparent;border:0;border-bottom:1px solid var(--line-forest);border-radius:0;padding:.85rem 0;min-height:48px;transition:border-color .25s;-webkit-appearance:none;appearance:none}
+.field textarea{resize:vertical;min-height:110px}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='none' stroke='%23efe9d9' stroke-width='1.4'%3E%3Cpath d='M1 1.5l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .2rem center;padding-right:2rem}
+.field select option{color:#16241e;background:#f3efe4}
+.field input::placeholder,.field textarea::placeholder{color:#7f9488}
+.field input:hover,.field select:hover,.field textarea:hover{border-bottom-color:var(--on-forest-muted)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-bottom-color:var(--terra-on-forest);box-shadow:0 1px 0 var(--terra-on-forest)}
+.field input:-webkit-autofill{-webkit-text-fill-color:var(--on-forest);transition:background-color 99999s}
+.field [aria-invalid="true"]{border-bottom-color:#f0a58a}
+.err{font-size:.82rem;color:#f4b59d;min-height:0}
+.hint{font-size:.82rem;color:var(--on-forest-muted)}
+.form__actions{display:grid;gap:.9rem;justify-items:start}
+.form__actions .btn{width:100%}
+.result{border:1px solid var(--line-forest);padding:1.2rem;display:grid;gap:1rem}
+.result p{font-size:.92rem}
+.result .preview{font-size:.88rem;color:var(--on-forest-muted);white-space:pre-wrap;border-left:2px solid var(--terra-on-forest);padding-left:.9rem}
+.result .row{display:flex;flex-wrap:wrap;gap:.7rem}
+@media(min-width:900px){
+  .contact__grid{grid-template-columns:5fr 6fr;gap:clamp(3rem,8vw,8rem)}
+  .form__actions{grid-template-columns:auto;}
+  .form__actions .btn{width:auto}
+}
+@media(min-width:560px){.form__row{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem}}
+.form__row{display:grid;gap:1.6rem}
+
+/* Footer */
+.foot{background:var(--forest);color:var(--on-forest);border-top:1px solid var(--line-forest);padding-block:2.4rem calc(2.4rem + env(safe-area-inset-bottom,0px))}
+.foot .wrap{display:grid;gap:1.6rem}
+.foot .logo{color:var(--on-forest)}
+.foot .logo i{background:var(--terra-on-forest)}
+.foot nav{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem}
+.foot nav a{display:inline-flex;align-items:center;min-height:44px;font-size:.9rem;text-decoration:none;color:var(--on-forest-muted)}
+.foot nav a:hover{color:var(--on-forest)}
+.foot small{font-size:.8rem;color:var(--on-forest-muted)}
+@media(min-width:900px){.foot .wrap{grid-template-columns:auto 1fr auto;align-items:center;gap:3rem}.foot nav{justify-content:center}}
+
+/* Reveal on scroll: transform only, content is always visible */
+.js .rv{transform:translateY(22px);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{transform:none}
+.svc__art svg,.mock__art svg{transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.proj:hover .mock__art svg,.hero__fig:hover svg{transform:scale(1.03)}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .rv{transform:none}
+}
+</style>
+</head>
+<body>
+
+
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".1"/></feComponentTransfer>
+    </filter>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+</svg>
+
+<header class="nav" id="top">
+  <div class="wrap nav__in">
+    <a class="logo" href="#top" aria-label="Mesa Studio, inicio"><b>MESA</b><i></i><span>Studio</span></a>
+    <nav class="nav__links" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn--primary btn--sm nav__cta" href="#contacto">Solicitar información</a>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <a href="#servicios">Servicios</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#contacto">Contacto</a>
+    <a class="btn btn--primary" href="#contacto">Solicitar información</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__copy hero__rise">
+      <p class="eyebrow">Sitios web y menús digitales para restaurantes</p>
+      <h1>Tu restaurante merece una presencia <em>inolvidable</em></h1>
+      <p class="lede">Diseñamos experiencias digitales para restaurantes que quieren presentar su propuesta con personalidad y profesionalismo.</p>
+      <div class="actions">
+        <a class="btn btn--primary" href="#servicios">Explorar servicios
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+        <a class="btn btn--ghost" href="#proyectos">Ver proyectos</a>
+      </div>
+    </div>
+    <figure class="hero__fig" data-photo="hero" data-alt="Plato de vieiras servido sobre una mesa verde">
+      <svg class="art" viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de un plato de vieiras servido sobre una mesa verde con cubiertos y una copa">
+        <rect width="800" height="1000" fill="#1f4435"/>
+        <g transform="rotate(-7 200 800)">
+          <rect x="-120" y="650" width="580" height="460" fill="#e7dfca"/>
+          <path d="M-120 745H460M-120 845H460M-120 945H460" stroke="#d6cdb4" stroke-width="2"/>
+        </g>
+        <circle cx="482" cy="454" r="290" fill="#000" opacity=".38" filter="url(#soft)"/>
+        <circle cx="470" cy="430" r="290" fill="#f1ebdb"/>
+        <circle cx="470" cy="430" r="232" fill="#f8f4e8" stroke="#e3dbc3" stroke-width="3"/>
+        <circle cx="470" cy="430" r="150" fill="none" stroke="#ebe3cd" stroke-width="2"/>
+        <path d="M350 470C372 356 520 322 596 398C628 440 566 526 468 534C404 540 340 522 350 470Z" fill="#ece0bf"/>
+        <path d="M330 380C360 320 420 300 482 306" stroke="#a8492a" stroke-width="7" stroke-linecap="round" fill="none" opacity=".92"/>
+        <g>
+          <ellipse cx="428" cy="440" rx="50" ry="47" fill="#efd8b4"/><ellipse cx="428" cy="440" rx="39" ry="37" fill="#f7e8cb"/><ellipse cx="428" cy="440" rx="50" ry="47" fill="none" stroke="#c98a4d" stroke-width="4" opacity=".8"/>
+          <ellipse cx="510" cy="466" rx="50" ry="47" fill="#efd8b4"/><ellipse cx="510" cy="466" rx="39" ry="37" fill="#f7e8cb"/><ellipse cx="510" cy="466" rx="50" ry="47" fill="none" stroke="#c98a4d" stroke-width="4" opacity=".8"/>
+          <ellipse cx="478" cy="378" rx="50" ry="47" fill="#efd8b4"/><ellipse cx="478" cy="378" rx="39" ry="37" fill="#f7e8cb"/><ellipse cx="478" cy="378" rx="50" ry="47" fill="none" stroke="#c98a4d" stroke-width="4" opacity=".8"/>
+        </g>
+        <g fill="#a8492a"><circle cx="362" cy="524" r="9"/><circle cx="398" cy="550" r="6"/><circle cx="566" cy="524" r="8"/><circle cx="606" cy="470" r="5"/><circle cx="394" cy="338" r="6"/></g>
+        <g>
+          <path transform="translate(440 410) rotate(-30)" d="M0 0C10-18 30-20 40-10 30 6 12 10 0 0Z" fill="#5f8f4c"/>
+          <path transform="translate(494 444) rotate(40)" d="M0 0C10-18 30-20 40-10 30 6 12 10 0 0Z" fill="#3f6f3a"/>
+          <path transform="translate(466 366) rotate(100)" d="M0 0C10-18 30-20 40-10 30 6 12 10 0 0Z" fill="#7aa35b"/>
+          <path transform="translate(520 500) rotate(160)" d="M0 0C10-18 30-20 40-10 30 6 12 10 0 0Z" fill="#5f8f4c"/>
+        </g>
+        <g transform="rotate(5 100 520)">
+          <rect x="88" y="410" width="24" height="440" rx="12" fill="#d3cdbb"/>
+          <rect x="93" y="410" width="5" height="440" rx="2.5" fill="#ece7d7"/>
+          <path d="M76 190h48v160q0 72-24 72t-24-72z" fill="#d3cdbb"/>
+          <g fill="#1f4435"><rect x="85" y="196" width="5" height="124" rx="2.5"/><rect x="97.5" y="196" width="5" height="124" rx="2.5"/><rect x="110" y="196" width="5" height="124" rx="2.5"/></g>
+        </g>
+        <g>
+          <circle cx="650" cy="880" r="84" fill="#d8c88e" opacity=".5"/>
+          <circle cx="650" cy="880" r="84" fill="none" stroke="#f1ebdb" stroke-width="3" opacity=".7"/>
+          <circle cx="650" cy="880" r="32" fill="none" stroke="#f1ebdb" stroke-width="2" opacity=".5"/>
+        </g>
+        <g>
+          <circle cx="250" cy="868" r="86" fill="#efe8d6" stroke="#d6cdb4" stroke-width="2"/>
+          <ellipse cx="246" cy="866" rx="54" ry="38" transform="rotate(-18 246 866)" fill="#c9a06a"/>
+          <ellipse cx="246" cy="866" rx="44" ry="29" transform="rotate(-18 246 866)" fill="#dcb783"/>
+          <rect x="268" y="838" width="26" height="18" rx="3" transform="rotate(-18 268 838)" fill="#f1dd8f"/>
+        </g>
+        <rect width="800" height="1000" filter="url(#grain)"/>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios" class="sec" style="padding-bottom:0">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <div style="display:grid;gap:1.4rem">
+        <p class="eyebrow">Servicios</p>
+        <h2 class="rv">Del primer vistazo a la reserva</h2>
+      </div>
+      <ul class="carta rv" aria-label="Índice de servicios">
+        <li><a href="#s-web"><span>Páginas web personalizadas</span><i></i><em>Sitio completo</em></a></li>
+        <li><a href="#s-menu"><span>Menús digitales</span><i></i><em>Carta para móvil</em></a></li>
+        <li><a href="#s-contacto"><span>Contacto y reservas</span><i></i><em>WhatsApp y mapa</em></a></li>
+      </ul>
+    </header>
+
+    <article class="svc svc--web" id="s-web">
+      <div class="svc__art rv">
+        <svg class="art" viewBox="0 0 900 640" role="img" aria-label="Ilustración de una página web de restaurante en un navegador y en un teléfono">
+          <rect width="900" height="640" fill="#e2d9c2"/>
+          <rect x="70" y="60" width="640" height="450" rx="6" fill="#f6f1e4" stroke="#c9bfa6" stroke-width="2"/>
+          <rect x="70" y="60" width="640" height="42" rx="6" fill="#ebe4d2"/>
+          <circle cx="96" cy="81" r="5" fill="#a8492a"/><circle cx="114" cy="81" r="5" fill="#b8ae92"/><circle cx="132" cy="81" r="5" fill="#b8ae92"/>
+          <rect x="190" y="71" width="300" height="20" rx="10" fill="#f6f1e4"/>
+          <rect x="100" y="128" width="84" height="9" fill="#16352a"/>
+          <g fill="#b8ae92"><rect x="440" y="130" width="42" height="6"/><rect x="500" y="130" width="42" height="6"/><rect x="560" y="130" width="42" height="6"/></g>
+          <g fill="#16352a"><rect x="100" y="196" width="300" height="24"/><rect x="100" y="232" width="236" height="24"/><rect x="100" y="268" width="170" height="24" fill="#a8492a"/></g>
+          <g fill="#b8ae92"><rect x="100" y="318" width="270" height="7"/><rect x="100" y="334" width="240" height="7"/></g>
+          <rect x="100" y="378" width="136" height="38" fill="#16352a"/>
+          <rect x="250" y="378" width="110" height="38" fill="none" stroke="#16352a" stroke-width="1.5"/>
+          <rect x="440" y="160" width="240" height="320" fill="#1f4435"/>
+          <circle cx="560" cy="320" r="92" fill="#efe9d9"/><circle cx="560" cy="320" r="62" fill="#f8f4e8" stroke="#e3dbc3" stroke-width="2"/>
+          <ellipse cx="548" cy="324" rx="20" ry="18" fill="#efd8b4"/><ellipse cx="582" cy="312" rx="20" ry="18" fill="#efd8b4"/>
+          <circle cx="570" cy="344" r="5" fill="#a8492a"/>
+          <rect x="640" y="210" width="190" height="380" rx="30" fill="#16352a"/>
+          <rect x="652" y="224" width="166" height="352" rx="20" fill="#f6f1e4"/>
+          <rect x="652" y="224" width="166" height="110" rx="20" fill="#1f4435"/>
+          <rect x="652" y="300" width="166" height="34" fill="#1f4435"/>
+          <circle cx="735" cy="278" r="34" fill="#efe9d9"/><circle cx="735" cy="278" r="22" fill="#f8f4e8"/>
+          <g fill="#16352a"><rect x="670" y="356" width="104" height="11"/><rect x="670" y="376" width="70" height="11" fill="#a8492a"/></g>
+          <g fill="#b8ae92"><rect x="670" y="406" width="126" height="6"/><rect x="670" y="420" width="104" height="6"/></g>
+          <rect x="670" y="452" width="90" height="30" fill="#16352a"/>
+          <rect width="900" height="640" filter="url(#grain)"/>
+        </svg>
+      </div>
+      <div class="svc__txt rv">
+        <p class="svc__k">Sitio web</p>
+        <h3>Páginas web personalizadas para restaurantes</h3>
+        <p class="body">Un sitio diseñado para tu cocina, tu local y tu público. Con identidad propia y sin plantillas repetidas, para que quien te busque entienda tu propuesta en segundos.</p>
+        <ul class="plain">
+          <li>Diseño propio, alineado con tu marca</li>
+          <li>Rápido y cómodo en el móvil</li>
+          <li>Textos y estructura pensados para comer, no para leer de más</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+
+  <div class="band-forest on-forest">
+    <div class="wrap">
+      <article class="svc svc--menu" id="s-menu">
+        <div class="svc__txt rv">
+          <p class="svc__k">Carta digital</p>
+          <h3>Menús digitales elegantes y adaptados a móviles</h3>
+          <p class="body">Tu carta pensada para leerse con una mano: secciones claras, platos bien presentados y un diseño que se ajusta a cualquier pantalla.</p>
+          <ul class="plain">
+            <li>Secciones y platos fáciles de recorrer</li>
+            <li>Ingredientes y precios a la vista</li>
+            <li>Misma identidad visual que tu sitio</li>
+          </ul>
+        </div>
+        <div class="phone rv">
+          <svg class="art" viewBox="0 0 320 640" role="img" aria-label="Ilustración de una carta digital en un teléfono, con secciones y platos">
+            <rect x="2" y="2" width="316" height="636" rx="46" fill="#0b1712" stroke="#4f6a5d" stroke-width="2"/>
+            <rect x="14" y="14" width="292" height="612" rx="36" fill="#f3efe4"/>
+            <rect x="110" y="26" width="100" height="22" rx="11" fill="#0b1712"/>
+            <text x="36" y="104" font-size="32" fill="#16241e" style="font-family:var(--serif)">Carta</text>
+            <g font-size="11" letter-spacing="1.6" style="font-family:var(--sans)">
+              <text x="36" y="134" fill="#a8492a" font-weight="600">ENTRADAS</text>
+              <text x="128" y="134" fill="#6b7a71">FONDOS</text>
+              <text x="196" y="134" fill="#6b7a71">POSTRES</text>
+            </g>
+            <rect x="36" y="142" width="62" height="2" fill="#a8492a"/>
+            <rect x="36" y="143" width="248" height="1" fill="#d9d2bd"/>
+            <g>
+              <circle cx="66" cy="204" r="28" fill="#1f4435"/><circle cx="66" cy="204" r="17" fill="#efe9d9"/>
+              <text x="108" y="196" font-size="18" fill="#16241e" style="font-family:var(--serif)">Ensalada verde</text>
+              <rect x="108" y="208" width="120" height="6" fill="#c9c2ac"/><rect x="108" y="220" width="84" height="6" fill="#c9c2ac"/>
+              <rect x="246" y="190" width="38" height="8" fill="#16241e"/>
+              <circle cx="66" cy="298" r="28" fill="#b9733f"/><circle cx="66" cy="298" r="17" fill="#e6b27a"/>
+              <text x="108" y="290" font-size="18" fill="#16241e" style="font-family:var(--serif)">Crema de zapallo</text>
+              <rect x="108" y="302" width="110" height="6" fill="#c9c2ac"/><rect x="108" y="314" width="92" height="6" fill="#c9c2ac"/>
+              <rect x="246" y="284" width="38" height="8" fill="#16241e"/>
+              <circle cx="66" cy="392" r="28" fill="#8a6a3f"/><circle cx="66" cy="392" r="17" fill="#d9b982"/>
+              <text x="108" y="384" font-size="18" fill="#16241e" style="font-family:var(--serif)">Pan rústico</text>
+              <rect x="108" y="396" width="124" height="6" fill="#c9c2ac"/><rect x="108" y="408" width="70" height="6" fill="#c9c2ac"/>
+              <rect x="246" y="378" width="38" height="8" fill="#16241e"/>
+              <circle cx="66" cy="486" r="28" fill="#e9dcb5"/><circle cx="66" cy="486" r="17" fill="#f3d37a"/>
+              <text x="108" y="478" font-size="18" fill="#16241e" style="font-family:var(--serif)">Tabla de quesos</text>
+              <rect x="108" y="490" width="116" height="6" fill="#c9c2ac"/><rect x="108" y="502" width="88" height="6" fill="#c9c2ac"/>
+              <rect x="246" y="472" width="38" height="8" fill="#16241e"/>
+            </g>
+            <rect x="36" y="548" width="248" height="46" rx="2" fill="#a8492a"/>
+            <rect x="110" y="567" width="100" height="8" fill="#f8f3e6"/>
+          </svg>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="svc--reach">
+    <div class="wrap">
+      <article class="reach" id="s-contacto">
+        <div class="svc__txt rv">
+          <p class="svc__k">Contacto</p>
+          <h3>Contacto, WhatsApp, ubicación y opciones de reserva</h3>
+          <p class="body">Que tus clientes te escriban, te encuentren y reserven sin dar vueltas. Dejamos a un toque los canales que tu restaurante ya usa.</p>
+        </div>
+        <ul class="reach__list rv">
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+            <h4>WhatsApp</h4>
+            <p>Un botón directo con el mensaje ya redactado.</p>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg>
+            <h4>Ubicación</h4>
+            <p>Dirección y mapa para llegar sin preguntar.</p>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A15 15 0 0 1 4 5a1 1 0 0 1 1-1z"/></svg>
+            <h4>Teléfono</h4>
+            <p>Número visible y listo para llamar desde el móvil.</p>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>
+            <h4>Reservas</h4>
+            <p>Enlace a tu sistema de reservas o solicitud por mensaje.</p>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos" class="sec">
+  <div class="wrap">
+    <header class="sec-head sec-head--split">
+      <div style="display:grid;gap:1.4rem">
+        <p class="eyebrow">Proyectos</p>
+        <h2 class="rv">Tres conceptos, tres identidades</h2>
+      </div>
+      <p class="body rv">Cada restaurante pide una voz distinta. Estos son conceptos de demostración creados por Mesa Studio para mostrar el rango de estilos. No son trabajos para clientes reales.</p>
+    </header>
+
+    <article class="proj proj--wide rv">
+      <figure class="mock mock--umbral mock--wide" role="img" aria-label="Vista previa del concepto Umbral: sitio oscuro y editorial para un restaurante de alta cocina">
+        <div class="mock__bar" aria-hidden="true"><span class="brand">Umbral</span><span class="mock__links"><span>Carta</span><span>Reservas</span><span>Contacto</span></span></div>
+        <div class="mock__body" aria-hidden="true">
+          <div class="mock__art" data-photo="umbral" data-alt="Plato de alta cocina sobre vajilla negra">
+            <svg class="art" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+              <rect width="800" height="800" fill="#0e0e0d"/>
+              <circle cx="400" cy="410" r="310" fill="#181817" stroke="#2f2e2b" stroke-width="2"/>
+              <circle cx="400" cy="410" r="236" fill="none" stroke="#2a2927" stroke-width="2"/>
+              <path d="M290 470C320 380 470 350 520 420" stroke="#6b2a1d" stroke-width="9" stroke-linecap="round" fill="none"/>
+              <g fill="#d8cfb8"><circle cx="380" cy="400" r="40"/><circle cx="452" cy="428" r="32"/><circle cx="346" cy="470" r="24"/></g>
+              <g fill="#bdb299"><circle cx="372" cy="394" r="22"/><circle cx="446" cy="422" r="17"/></g>
+              <g fill="#a89868"><circle cx="520" cy="470" r="8"/><circle cx="548" cy="448" r="5"/><circle cx="300" cy="400" r="6"/></g>
+              <g stroke="#5f8a4a" stroke-width="4" stroke-linecap="round"><path d="M395 360l10-22M405 362l22-14M388 366l-18-18"/></g>
+              <rect width="800" height="800" filter="url(#grain)"/>
+            </svg>
+          </div>
+          <div class="mock__txt">
+            <span class="k">Cocina de temporada</span>
+            <span class="t">Una mesa para pocos, un menú para recordar</span>
+            <span class="mock__btn">Reservar mesa</span>
+          </div>
+        </div>
+      </figure>
+      <div class="proj__info">
+        <span class="tag">Concepto de demostración</span>
+        <h3>Umbral</h3>
+        <p class="proj__type">Restaurante de alta cocina</p>
+        <p class="body">Fondo oscuro, tipografía editorial y mucho aire. La fotografía del plato es la protagonista y la reserva queda siempre a un toque.</p>
+      </div>
+    </article>
+
+    <div class="proj-pair">
+      <article class="proj rv">
+        <figure class="mock mock--grano" role="img" aria-label="Vista previa del concepto Grano Claro: sitio cálido y luminoso para una cafetería de especialidad">
+          <div class="mock__bar" aria-hidden="true"><span class="brand">Grano Claro</span><span class="mock__links"><span>Carta</span><span>Visítanos</span></span></div>
+          <div class="mock__body" aria-hidden="true">
+            <div class="mock__art"><div data-photo="grano" data-alt="Café con arte latte y croissant">
+              <svg class="art" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="800" fill="#eadfc8"/>
+                <circle cx="420" cy="420" r="270" fill="#fbf8f1" stroke="#e0d6bf" stroke-width="3"/>
+                <circle cx="420" cy="420" r="186" fill="#fff" stroke="#eadfc8" stroke-width="3"/>
+                <path d="M606 400c60-10 84 30 54 62-14 14-34 20-56 18" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
+                <circle cx="420" cy="420" r="150" fill="#7b4a2b"/>
+                <path d="M420 505C346 450 350 360 420 392 490 360 494 450 420 505Z" fill="#f0dcc0"/>
+                <path d="M420 470C380 436 384 396 420 414 456 396 460 436 420 470Z" fill="#7b4a2b" opacity=".5"/>
+                <g transform="translate(120 640) rotate(-20)"><path d="M0 0C40-50 160-50 200 0 180-8 160-10 140-10L60-10C40-10 20-8 0 0Z" fill="#d9a05b"/><path d="M60-10c8-26 14-34 22-40M100-12c0-26 0-36 0-46M140-10c-8-26-14-34-22-40" stroke="#b97e3b" stroke-width="4" fill="none"/></g>
+                <rect width="800" height="800" filter="url(#grain)"/>
+              </svg>
+            </div></div>
+            <div class="mock__txt">
+              <span class="k">Café de especialidad</span>
+              <span class="t">Café, pan fresco y buena luz</span>
+              <span class="mock__btn">Ver carta</span>
+            </div>
+          </div>
+        </figure>
+        <div class="proj__info">
+          <span class="tag">Concepto de demostración</span>
+          <h3>Grano Claro</h3>
+          <p class="proj__type">Cafetería de especialidad</p>
+          <p class="body">Paleta cálida, formas suaves y una carta que se lee de un vistazo. Minimalista y luminosa, pensada para consultarla con un café en la mano.</p>
+        </div>
+      </article>
+
+      <article class="proj rv">
+        <figure class="mock mock--brasa" role="img" aria-label="Vista previa del concepto Brasa 27: sitio atrevido y moderno para una hamburguesería urbana">
+          <div class="mock__bar" aria-hidden="true"><span class="brand">Brasa<sup>27</sup></span><span class="mock__links"><span>Menú</span><span>Local</span></span></div>
+          <div class="mock__body" aria-hidden="true">
+            <div class="mock__art" data-photo="brasa" data-alt="Hamburguesa con queso sobre fondo ocre">
+              <svg class="art" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+                <rect width="800" height="800" fill="#e9b02f"/>
+                <circle cx="400" cy="420" r="300" fill="#161412"/>
+                <rect x="170" y="560" width="460" height="64" rx="32" fill="#c9782f"/>
+                <rect x="190" y="500" width="420" height="70" rx="28" fill="#3a2118"/>
+                <path d="M170 506h460l-40 60-50-34-60 56-70-52-60 44-60-40-60 40z" fill="#f3c640"/>
+                <path d="M165 480c30-22 50 10 80 0s50-24 80-4 50 20 80 0 50-24 80-4 50 20 80 0 40-12 55 8v32H165z" fill="#6f9a3a"/>
+                <rect x="200" y="452" width="400" height="34" rx="17" fill="#c8402a"/>
+                <path d="M170 440c0-120 100-190 230-190s230 70 230 190z" fill="#c9782f"/>
+                <path d="M200 420c14-84 90-136 200-136" stroke="#e2a15b" stroke-width="12" stroke-linecap="round" fill="none" opacity=".7"/>
+                <g fill="#f3e3c0"><ellipse cx="330" cy="330" rx="12" ry="6" transform="rotate(-20 330 330)"/><ellipse cx="400" cy="304" rx="12" ry="6"/><ellipse cx="470" cy="332" rx="12" ry="6" transform="rotate(24 470 332)"/><ellipse cx="370" cy="384" rx="12" ry="6" transform="rotate(10 370 384)"/><ellipse cx="450" cy="390" rx="12" ry="6" transform="rotate(-14 450 390)"/><ellipse cx="270" cy="394" rx="12" ry="6" transform="rotate(-30 270 394)"/><ellipse cx="530" cy="396" rx="12" ry="6" transform="rotate(30 530 396)"/></g>
+                <rect width="800" height="800" filter="url(#grain)"/>
+              </svg>
+            </div>
+            <div class="mock__txt">
+              <span class="k">Parrilla urbana</span>
+              <span class="t">Hamburguesas a la parrilla</span>
+              <span class="mock__btn">Ver menú</span>
+            </div>
+          </div>
+        </figure>
+        <div class="proj__info">
+          <span class="tag">Concepto de demostración</span>
+          <h3>Brasa 27</h3>
+          <p class="proj__type">Hamburguesería urbana</p>
+          <p class="body">Color intenso, tipografía grande y un tono directo. Una identidad con carácter que se reconoce desde la primera pantalla.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="process" id="proceso">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow">Proceso de trabajo</p>
+      <h2 class="rv">Cuatro etapas, de la primera conversación a la web publicada</h2>
+    </header>
+    <ol class="steps">
+      <li class="rv">
+        <span class="n" aria-hidden="true">I</span>
+        <h3>Descubrimiento</h3>
+        <p>Conversamos sobre tu restaurante, tu carta, tu público y lo que necesitas que tu web haga por ti.</p>
+        <span class="res"><b>Resultado</b>Un plan claro del proyecto</span>
+      </li>
+      <li class="rv">
+        <span class="n" aria-hidden="true">II</span>
+        <h3>Diseño</h3>
+        <p>Definimos identidad, tipografía y composición. Revisas el diseño antes de que pase a código.</p>
+        <span class="res"><b>Resultado</b>Dirección visual y maquetas</span>
+      </li>
+      <li class="rv">
+        <span class="n" aria-hidden="true">III</span>
+        <h3>Desarrollo</h3>
+        <p>Construimos el sitio y la carta digital, y los probamos en móvil, tablet y ordenador.</p>
+        <span class="res"><b>Resultado</b>Un sitio funcional para revisar</span>
+      </li>
+      <li class="rv">
+        <span class="n" aria-hidden="true">IV</span>
+        <h3>Entrega</h3>
+        <p>Publicamos tu sitio y dejamos listos el contacto, WhatsApp, la ubicación y las reservas.</p>
+        <span class="res"><b>Resultado</b>Tu restaurante en línea</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact on-forest" id="contacto">
+  <div class="wrap contact__grid">
+    <div class="contact__intro">
+      <p class="eyebrow">Contacto</p>
+      <h2 class="rv">Hablemos de tu restaurante</h2>
+      <p class="body rv">Cuéntanos qué necesitas. Con esos datos preparamos una propuesta a la medida de tu local.</p>
+      <div class="rv" style="display:grid;gap:.8rem;justify-items:start">
+        <a class="btn btn--light" id="wa-direct" href="#contacto" target="_blank" rel="noopener">Escribir por WhatsApp
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg></a>
+        <p class="wa-note" id="wa-note" role="status"></p>
+      </div>
+    </div>
+
+    <form class="form rv" id="form" novalidate aria-describedby="form-hint">
+      <div class="form__row">
+        <div class="field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="err-nombre" placeholder="Tu nombre">
+          <p class="err" id="err-nombre" aria-live="polite"></p>
+        </div>
+        <div class="field">
+          <label for="restaurante">Restaurante</label>
+          <input id="restaurante" name="restaurante" type="text" autocomplete="organization" required aria-describedby="err-restaurante" placeholder="Nombre del local">
+          <p class="err" id="err-restaurante" aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="servicio">Servicio de interés</label>
+        <select id="servicio" name="servicio" required aria-describedby="err-servicio">
+          <option value="">Elige una opción</option>
+          <option>Página web personalizada</option>
+          <option>Menú digital</option>
+          <option>Contacto, WhatsApp, ubicación y reservas</option>
+          <option>Todavía no lo sé</option>
+        </select>
+        <p class="err" id="err-servicio" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="mensaje">Mensaje <span style="text-transform:none;letter-spacing:0;font-weight:400">(opcional)</span></label>
+        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos sobre tu restaurante"></textarea>
+      </div>
+      <div class="form__actions">
+        <button class="btn btn--primary" type="submit">Enviar solicitud
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 8h13M9 3l5 5-5 5"/></svg></button>
+        <p class="hint" id="form-hint">Al enviar se abre WhatsApp con tu mensaje listo. Tú decides si lo mandas.</p>
+      </div>
+      <div class="result" id="result" hidden aria-live="polite">
+        <p id="result-msg"></p>
+        <p class="preview" id="preview"></p>
+        <div class="row">
+          <a class="btn btn--primary btn--sm" id="result-link" href="#contacto" target="_blank" rel="noopener" hidden>Abrir WhatsApp</a>
+          <button class="btn btn--light btn--sm" id="copy" type="button">Copiar mensaje</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot on-forest">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Mesa Studio, volver arriba"><b>MESA</b><i></i><span>Studio</span></a>
+    <nav aria-label="Pie de página">
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <small>Mesa Studio es un nombre provisional.</small>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ===== CONFIGURACIÓN =====
+     WHATSAPP_NUMBER: tu número con código de país, solo dígitos. Ejemplo Chile: "56912345678".
+     PHOTOS: rutas a fotografías propias (por ejemplo "img/hero.jpg"). Si una está vacía se muestra la ilustración. */
+  var WHATSAPP_NUMBER = "56956817830";
+  var PHOTOS = { hero: "", umbral: "", grano: "", brasa: "" };
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  document.documentElement.classList.add("js");
+
+  /* Fotografías propias */
+  document.querySelectorAll("[data-photo]").forEach(function (el) {
+    var src = PHOTOS[el.getAttribute("data-photo")];
+    if (!src) return;
+    var img = new Image();
+    img.alt = el.getAttribute("data-alt") || "";
+    img.decoding = "async";
+    img.src = src;
+    img.onload = function () { el.replaceChildren(img); };
+  });
+
+  /* Menú móvil */
+  var burger = $("#burger"), menu = $("#menu");
+  function setMenu(open) {
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    menu.hidden = !open;
+  }
+  burger.addEventListener("click", function () { setMenu(menu.hidden); });
+  menu.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !menu.hidden) { setMenu(false); burger.focus(); }
+  });
+  document.addEventListener("click", function (e) {
+    if (!menu.hidden && !e.target.closest(".nav")) setMenu(false);
+  });
+  window.matchMedia("(min-width:900px)").addEventListener("change", function (m) { if (m.matches) setMenu(false); });
+
+  /* Aparición suave al hacer scroll (solo desplazamiento, el contenido siempre es visible) */
+  var rv = document.querySelectorAll(".rv");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (items) {
+      items.forEach(function (it) { if (it.isIntersecting) { it.target.classList.add("in"); io.unobserve(it.target); } });
+    }, { threshold: 0.1, rootMargin: "0px 0px -6% 0px" });
+    rv.forEach(function (el) { io.observe(el); });
+  } else { rv.forEach(function (el) { el.classList.add("in"); }); }
+
+  /* WhatsApp */
+  var number = String(WHATSAPP_NUMBER).replace(/\D/g, "");
+  var waDirect = $("#wa-direct"), waNote = $("#wa-note");
+  function waUrl(text) { return "https://wa.me/" + number + "?text=" + encodeURIComponent(text); }
+  var NOT_SET = "Falta configurar el número de WhatsApp (variable WHATSAPP_NUMBER al final del código).";
+  if (number) {
+    waDirect.href = waUrl("Hola, quiero información sobre sus servicios para mi restaurante.");
+  } else {
+    waDirect.addEventListener("click", function (e) { e.preventDefault(); waNote.textContent = NOT_SET; });
+  }
+
+  /* Formulario */
+  var form = $("#form"), result = $("#result"), resultMsg = $("#result-msg"), preview = $("#preview");
+  var resultLink = $("#result-link"), copyBtn = $("#copy");
+  var required = [
+    { id: "nombre", msg: "Escribe tu nombre." },
+    { id: "restaurante", msg: "Escribe el nombre de tu restaurante." },
+    { id: "servicio", msg: "Elige un servicio." }
+  ];
+  function check() {
+    var first = null;
+    required.forEach(function (f) {
+      var el = document.getElementById(f.id), err = document.getElementById("err-" + f.id);
+      var ok = el.value.trim() !== "";
+      el.setAttribute("aria-invalid", ok ? "false" : "true");
+      err.textContent = ok ? "" : f.msg;
+      if (!ok && !first) first = el;
+    });
+    return first;
+  }
+  required.forEach(function (f) {
+    document.getElementById(f.id).addEventListener("input", function () {
+      this.setAttribute("aria-invalid", "false");
+      document.getElementById("err-" + f.id).textContent = "";
+    });
+  });
+  function buildMessage() {
+    var v = function (id) { return document.getElementById(id).value.trim(); };
+    var text = "Hola, soy " + v("nombre") + " de " + v("restaurante") + ". Me interesa: " + v("servicio") + ".";
+    if (v("mensaje")) text += "\n\n" + v("mensaje");
+    return text;
+  }
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = check();
+    if (bad) { bad.focus(); return; }
+    var text = buildMessage();
+    preview.textContent = text;
+    result.hidden = false;
+    if (number) {
+      var url = waUrl(text);
+      resultLink.href = url;
+      resultLink.hidden = false;
+      resultMsg.textContent = "Tu mensaje está listo. Si WhatsApp no se abrió, pulsa el botón para enviarlo desde allí.";
+      try { window.open(url, "_blank", "noopener"); } catch (err) {}
+    } else {
+      resultLink.hidden = true;
+      resultMsg.textContent = NOT_SET + " Mientras tanto puedes copiar el mensaje.";
+    }
+    result.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  });
+  copyBtn.addEventListener("click", function () {
+    var text = preview.textContent;
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(preview);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      copyBtn.textContent = "Selecciona y copia";
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        copyBtn.textContent = "Mensaje copiado";
+        setTimeout(function () { copyBtn.textContent = "Copiar mensaje"; }, 2400);
+      }, fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+
+</body>
+</html>
